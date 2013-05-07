@@ -12,7 +12,9 @@ define(function (require, exports, module) {
   }
 
   Venn.prototype.union = function (set){
-    this.currentSet = this.currentSet.concat(set)
+    if(isArray(set)) {
+      this.currentSet = this.currentSet.concat(set)
+    }
     return this
   }
 
@@ -26,6 +28,11 @@ define(function (require, exports, module) {
 
   var set = function(value) {
     return new Venn(value)
+  }
+
+  /** Utils **/
+  var isArray = function(object) {
+    return Object.prototype.toString.call( object ) === '[object Array]'
   }
 
   return {
