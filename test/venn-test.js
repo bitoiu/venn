@@ -17,22 +17,22 @@ define(function (require, exports, module) {
     describe("set", function() {
 
       it("should have empty array with no argument", function() {
-        venn.set().result().should.be.empty
+        venn().result().should.be.empty
       })
 
       it("should keep different instances", function() {
 
-        var fstSet = venn.set([1,2])
-        var sndSet = venn.set()
+        var fstSet = venn([1,2])
+        var sndSet = venn()
 
-        fstSet.result().should.not.equal(sndSet.result())
+        fstSet.should.not.equal(sndSet)
       })
 
       it("should keep different instances which might have the same result", function() {
-        var fstSet = venn.set([1,2])
-        var sndSet = venn.set([1,2])
+        var fstSet = venn([1,2])
+        var sndSet = venn([1,2])
 
-        fstSet.result().should.eql(sndSet.result())
+        fstSet.should.eql(sndSet)
       })
 
     })
@@ -41,14 +41,12 @@ define(function (require, exports, module) {
 
       it("shouldn't change set if empty", function (){
 
-        venn
-          .set([1,2,3])
+        venn([1,2,3])
           .union()
           .result()
           .should.be.eql([1,2,3])
 
-        venn
-          .set([1,2,3,4])
+        venn([1,2,3,4])
           .union([])
           .result()
           .should.be.eql([1,2,3,4])
@@ -56,14 +54,12 @@ define(function (require, exports, module) {
 
       it("should create simple union of elements", function() {
 
-        venn
-          .set([1,2,3])
+        venn([1,2,3])
           .union([4,5,6])
           .result()
           .should.be.eql([1,2,3,4,5,6])
 
       })
-
     })
   }();
 });
