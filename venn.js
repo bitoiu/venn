@@ -7,13 +7,13 @@ if (typeof module === 'object' && typeof define !== 'function') {
 
 define(function (require, exports, module) {
 
-  function Venn(initialSet) {
-    this.currentSet = initialSet || []
-  }
+  var Venn = Array
 
-  Venn.prototype.union = function (set){
-    if(isArray(set)) {
-      this.currentSet = this.currentSet.concat(set)
+  Venn.prototype = new Array
+
+  Venn.prototype.union = function (value){
+    if(isArray(value)) {
+      this.concat(value)
     }
     return this
   }
@@ -22,21 +22,18 @@ define(function (require, exports, module) {
     return this
   }
 
-  Venn.prototype.result = function () {
-    return this.currentSet
-  }
-
-  var set = function(value) {
-    return new Venn(value)
-  }
-
   /** Utils **/
   var isArray = function(object) {
     return Object.prototype.toString.call( object ) === '[object Array]'
   }
 
+  /** API **/
+  var create = function (value) {
+    return value ? new Venn(value) : new Venn()
+  }
+
   return {
-    set : set
+    create: create
   }
 
 })
