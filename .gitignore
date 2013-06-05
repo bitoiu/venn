@@ -5,10 +5,13 @@ lib-cov
 *.dat
 *.out
 *.pid
+*.iml
 *.gz
 
 pids
 logs
 results
+node_modules
+.idea
 
 npm-debug.log
