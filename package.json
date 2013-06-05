@@ -1,0 +1,31 @@
+{
+    "name": "venn",
+    "preferGlobal": true,
+    "version": "0.0.1",
+    "author": "bitoiu <vmrmonteiro@gmail.com>",
+    "description": "unambitious fluent API library for set operations.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bitoiu/venn.git"
+    },
+    "keywords": [
+        "venn",
+        "set",
+        "intersect",
+        "union"
+    ],
+    "dependencies" : {
+        "requirejs" : "2.1.x"
+    },
+    "devDependencies" : {
+        "mocha" : "1.9.x",
+        "chai" : "1.5.x"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "license": "MIT",
+    "engines": {
+        "node": ">=0.6"
+    }
+}
