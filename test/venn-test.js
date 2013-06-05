@@ -42,12 +42,12 @@ define(function (require, exports, module) {
 
       it("shouldn't change set if empty", function (){
 
-        venn.create([1,2,3])
+        var fstSet = venn.create([1,2,3])
           .union([])
           .should.be.eql([1,2,3])
 
-        venn.create([1,2,3,4])
-          .union([])
+        venn.create([])
+          .union([1,2,3,4])
           .should.be.eql([1,2,3,4])
       })
 

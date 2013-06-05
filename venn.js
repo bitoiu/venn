@@ -7,33 +7,35 @@ if (typeof module === 'object' && typeof define !== 'function') {
 
 define(function (require, exports, module) {
 
-  var Venn = Array
+  var venn_prototype = []
+    , venn = {}
 
-  Venn.prototype = new Array
+  // Union
+  Object.defineProperty(venn_prototype, "union", {
+    value : function(set) {
+      var val = this.concat(set)
+      arraySubclass(val, venn_prototype)
+      return val
+    },
+    writable : false,
+    enumerable : false
+  });
 
-  Venn.prototype.union = function (value){
-    if(isArray(value)) {
-      this.concat(value)
-    }
-    return this
+  // Utils
+  var arraySubclass = [].__proto__
+    ? function(array, prototype) {
+    array.__proto__ = prototype
   }
-
-  Venn.prototype.intersect = function() {
-    return this
-  }
-
-  /** Utils **/
-  var isArray = function(object) {
-    return Object.prototype.toString.call( object ) === '[object Array]'
-  }
-
-  /** API **/
-  var create = function (value) {
-    return value ? new Venn(value) : new Venn()
+    : function(array, prototype) {
+    for (var property in prototype) array[property] = prototype[property]
   }
 
   return {
-    create: create
+    create: function(array) {
+      array = array || []
+      arraySubclass(array, venn_prototype)
+      return array
+    }
   }
 
 })
