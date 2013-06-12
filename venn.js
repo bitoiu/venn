@@ -13,7 +13,7 @@ define(function (require, exports, module) {
   // Union
   Object.defineProperty(venn_prototype, "union", {
     value : function(set) {
-      var val = this.concat(set)
+      var val = removeDuplicates(this.concat(set))
       arraySubclass(val, venn_prototype)
       return val
     },
