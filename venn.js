@@ -30,9 +30,27 @@ define(function (require, exports, module) {
     for (var property in prototype) array[property] = prototype[property]
   }
 
+  var removeDuplicates = function (array) {
+
+    var map = {}
+    var result = []
+
+    array = array || []
+
+    array.forEach(function(value) {
+      map[value] = value
+    })
+
+    for (var key in map) {
+      result.push(map[key])
+    }
+
+    return result
+  }
+
   return {
     create: function(array) {
-      array = array || []
+      array = removeDuplicates(array)
       arraySubclass(array, venn_prototype)
       return array
     }

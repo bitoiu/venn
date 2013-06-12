@@ -14,19 +14,18 @@ define(function (require, exports, module) {
 
   return function () {
 
-    describe("init", function() {
+    describe("create", function() {
 
       it("should have empty array with no argument", function() {
         venn.create().should.be.empty
-
+        venn.create([]).should.be.empty
       })
 
       it("should keep different instances", function() {
-
         var fstSet = venn.create([1,2])
         var sndSet = venn.create()
 
-        fstSet.should.not.equal(sndSet)
+        fstSet.should.not.eql(sndSet)
       })
 
       it("should keep different instances which might have the same result", function() {
@@ -34,6 +33,12 @@ define(function (require, exports, module) {
         var sndSet = venn.create([1,2])
 
         fstSet.should.eql(sndSet)
+      })
+
+      it("should remove duplicates", function() {
+        venn.create([1,1]).should.eql([1])
+        venn.create([1,1,2,1]).should.eql([1,2])
+        venn.create([1,1,2,2,2,1,3,4,5,1,1,1,]).should.eql([1,2,3,4,5])
       })
 
     })
