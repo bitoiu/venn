@@ -69,5 +69,53 @@ define(function (require, exports, module) {
           .should.be.eql([1,2,3,4,5,6])
       })
     })
+
+    describe("intersection", function() {
+
+      it("should return the intersection set", function() {
+
+        // Empty intersections
+        venn.create([1,2,3])
+          .intersection([])
+          .should.eql([])
+
+        venn.create([])
+          .intersection([1])
+          .should.eql([])
+
+        venn.create([])
+          .intersection([])
+          .should.eql([])
+
+        // Non empty intersections
+        venn.create([1,2,3])
+          .intersection([2])
+          .should.eql([2])
+
+        venn.create([1,2,5,"a"])
+          .intersection(["a"])
+          .should.eql("a")
+
+        venn.create([1,2,3,4,5,6])
+          .intersection([1,3,4,5])
+          .intersection([1,2,3,4])
+          .intersection([1])
+          .should.eql([1])
+
+      })
+
+      it("should prevent duplication of elements", function() {
+
+        venn.create([1,2,3,4])
+          .intersection([2,2])
+          .should.eql([2])
+
+        venn.create([1,2,3,4])
+          .intersection([2,2,4])
+          .should.eql([2,4])
+      })
+
+    })
+
   }();
 });
