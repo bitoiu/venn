@@ -13,13 +13,24 @@ define(function (require, exports, module) {
   // Union
   Object.defineProperty(venn_prototype, "union", {
     value : function(set) {
-      var val = removeDuplicates(this.concat(set))
-      arraySubclass(val, venn_prototype)
-      return val
+      var result = removeDuplicates(this.concat(set))
+      arraySubclass(result, venn_prototype)
+      return result
     },
     writable : false,
     enumerable : false
   });
+
+  // Intersection
+  Object.defineProperty(venn_prototype, "intersection", {
+    value : function (set) {
+      var result = intersection(this,set)
+      arraySubclass(result, venn_prototype);
+      return result
+    },
+    writable : false,
+    enumerable : false
+  })
 
   // Utils
   var arraySubclass = [].__proto__
@@ -30,10 +41,44 @@ define(function (require, exports, module) {
     for (var property in prototype) array[property] = prototype[property]
   }
 
+  var intersection = function (firstSet, secondSet) {
+
+    if (!firstSet || firstSet.length == 0 || !secondSet || secondSet.length == 0) {
+      return []
+    }
+
+    var map = {}
+      , result = []
+
+
+    firstSet.forEach(function(value) {
+      map[value] = {
+        count: 1,
+        value: value
+      }
+    })
+
+    secondSet.forEach(function(value) {
+      if(map[value]) {
+        map[value].count = 2;
+      }
+    })
+
+    for (var key in map) {
+      if( map[key].count == 2) {
+        result.push(map[key].value)
+      }
+    }
+
+    return result
+  }
+
+  // this could be the body of union, and create is a union([])
+  // thus removing duplicates
   var removeDuplicates = function (array) {
 
     var map = {}
-    var result = []
+      , result = []
 
     array = array || []
 
