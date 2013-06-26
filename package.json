@@ -15,7 +15,8 @@
         "union"
     ],
     "dependencies" : {
-        "requirejs" : "2.1.x"
+        "requirejs" : "2.1.x",
+        "amdefine": ">=0.0.5"
     },
     "devDependencies" : {
         "mocha" : "1.9.x",

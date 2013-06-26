@@ -1,16 +1,13 @@
-/** Universal Module Definition: https://github.com/umdjs/umd **/
-if (typeof module === 'object' && typeof define !== 'function') {
-  var define = function (factory) {
-    module.exports = factory(require, exports, module);
-  };
-}
+if (typeof define !== 'function') { var define = require('amdefine')(module, require) }
 
-define(function (require, exports, module) {
+define(
+  [ "../venn"
+  , "../node_modules/chai/chai"
+  ]
+  , function (venn, chai) {
 
-  var venn = require('../venn')
-    , chai = require('chai')
-    , should = chai.should()
-    , expect = chai.expect
+  var should = chai.should()
+  , expect = chai.expect
 
   return function () {
 

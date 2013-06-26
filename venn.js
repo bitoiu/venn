@@ -1,11 +1,6 @@
-/** Universal Module Definition: https://github.com/umdjs/umd **/
-if (typeof module === 'object' && typeof define !== 'function') {
-  var define = function (factory) {
-    module.exports = factory(require, exports, module);
-  };
-}
+if (typeof define !== 'function') { var define = require('amdefine')(module, require) }
 
-define(function (require, exports, module) {
+define(function() {
 
   var venn_prototype = []
     , venn = {}
