@@ -1,8 +1,8 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module, require) }
 
 define(
-  [ "../venn"
-  , "../node_modules/chai/chai"
+  [ "../venn.js"
+  , "../node_modules/chai/chai.js"
   ]
   , function (venn, chai) {
 
