@@ -24,7 +24,7 @@
         "karma": ">=0.8.x"
     },
     "scripts": {
-        "test": "mocha"
+        "test" : "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
     },
     "license": "MIT",
     "engines": {
