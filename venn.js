@@ -47,15 +47,18 @@ define(function() {
 
 
     firstSet.forEach(function(value) {
-      map[value] = {
+      map[JSON.stringify(value)] = {
         count: 1,
         value: value
       }
     })
 
     secondSet.forEach(function(value) {
-      if(map[value]) {
-        map[value].count = 2;
+
+      var hash = JSON.stringify(value)
+
+      if(map[hash]) {
+        map[hash].count = 2;
       }
     })
 
@@ -78,7 +81,7 @@ define(function() {
     array = array || []
 
     array.forEach(function(value) {
-      map[value] = value
+      map[JSON.stringify(value)] = value
     })
 
     for (var key in map) {

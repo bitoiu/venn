@@ -1,6 +1,8 @@
 # venn [![Build Status](https://travis-ci.org/bitoiu/venn.png)](https://travis-ci.org/bitoiu/venn) [![NPM version](https://badge.fury.io/js/venn.png)](http://badge.fury.io/js/venn)
 
-unambitious fluent API library for set operations.
+fluent API library for set operations:
+* supports objects
+* AMD and node compatible
 
 ## Usage
 
@@ -36,11 +38,3 @@ Or a mix of everything
       .intersection([1,5])
       .union([2]) // returns [1,5,2]      
 ```
-
-## Opinions
-
-* venn does not guarantee order (maybe one day)
-
-## Next steps
-
-* venn is only working for literals, strings, numbers, etc. Work on the way for objects, the proper stuff.
