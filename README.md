@@ -1,5 +1,7 @@
 # venn [![Build Status](https://travis-ci.org/bitoiu/venn.png)](https://travis-ci.org/bitoiu/venn) [![NPM version](https://badge.fury.io/js/venn.png)](http://badge.fury.io/js/venn)
 
+![wiki stolen logo](http://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg)
+
 fluent API library for set operations:
 * supports objects
 * AMD and node compatible
