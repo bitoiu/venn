@@ -3,15 +3,16 @@ if (typeof define !== 'function') { var define = require('amdefine')(module, req
 define(
   [ "../venn.js"
   , "../node_modules/chai/chai.js"
+  , "../node_modules/lodash/lodash.js"
   ]
-  , function (venn, chai) {
+  , function (venn, chai, lodash) {
 
   var should = chai.should()
   , expect = chai.expect
 
   return function () {
 
-    describe("venn with literals", function() {
+    describe("venn", function() {
 
       describe("create", function() {
 
@@ -38,6 +39,16 @@ define(
           venn.create([1,1]).should.eql([1])
           venn.create([1,1,2,1]).should.eql([1,2])
           venn.create([1,1,2,2,2,1,3,4,5,1,1,1,]).should.eql([1,2,3,4,5])
+
+          var objList = venn.create([
+                        {name: "vitor", age: "23"}
+                      , {name: "khov", age: "24" }
+                      , {name: "vitor", age: "23"}
+                      ])
+
+          objList.length.should.equal(2)
+          lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
+          lodash.find(objList, {name: "khov", age : "24"}).should.be.ok
         })
 
       })

@@ -78,7 +78,7 @@ define(function() {
     array = array || []
 
     array.forEach(function(value) {
-      map[value] = value
+      map[JSON.stringify(value)] = value
     })
 
     for (var key in map) {
