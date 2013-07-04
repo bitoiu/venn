@@ -6,7 +6,7 @@ fluent API library for set operations:
 * supports objects
 * AMD and node compatible
 
-## Usage
+### Usage
 
 A venn set is just an array with some added features:
 
@@ -39,4 +39,20 @@ Or a mix of everything
       .union([1,2,3,4]) 
       .intersection([1,5])
       .union([2]) // returns [1,5,2]      
+```
+
+You can also use objects
+
+```javascript
+    venn.create([
+        {name: "vitor", age: "23"}
+      , {name: "khov",  age: "24"}
+      , {name: "pat",   age: "30"}])
+      .intersection([
+        {name: "vitor",  age: "23"}
+      , {name: "newguy", age: "0"}
+      , {name: "pat",    age: "50"}])
+      .union([
+        {name: "khov", age : "10"}
+      , {name: "nuno", age : "20"}]) // returns vitor, khov and nuno
 ```
