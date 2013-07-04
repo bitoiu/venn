@@ -21,7 +21,7 @@ define(
           venn.create([]).should.be.empty
         })
 
-        it("should keep different instances", function() {
+        it("should create different instances", function() {
           var fstSet = venn.create([1,2])
           var sndSet = venn.create()
 
@@ -116,7 +116,7 @@ define(
 
       describe("intersection", function() {
 
-        it("should return the intersection set", function() {
+        it("should return an empty intersection set", function() {
 
           // Empty intersections
           venn.create([1,2,3])
@@ -130,6 +130,10 @@ define(
           venn.create([])
             .intersection([])
             .should.eql([])
+
+        })
+
+        it("should return intersection of literals", function(){
 
           // Non empty intersections
           venn.create([1,2,3])
@@ -145,21 +149,22 @@ define(
             .intersection([1,2,3,4])
             .intersection([1])
             .should.eql([1])
+        })
 
+        if("should return intersection of object", function() {
           var objList = venn.create([
-                        {name: "vitor", age: "23"}
-                      , {name: "khov", age: "24"}
-                      , {name: "pat", age: "30"}
-                     ]).intersection([
-                       {name: "vitor", age: "23"}
-                     , {name: "newguy", age: "0"}
-                     , {name: "pat", age: "30"}
-                     ])
+                          {name: "vitor", age: "23"}
+                        , {name: "khov", age: "24"}
+                        , {name: "pat", age: "30"}
+                      ]).intersection([
+                          {name: "vitor", age: "23"}
+                        , {name: "newguy", age: "0"}
+                        , {name: "pat", age: "30"}
+                      ])
 
           objList.length.should.equal(2)
           lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
           lodash.find(objList, {name: "pat", age : "30"}).should.be.ok
-
         })
 
         it("should prevent duplication of elements", function() {
@@ -177,7 +182,7 @@ define(
 
       describe("mashups", function (){
 
-        it("should unite and intersect a bunch of stuff", function() {
+        it("should unite and intersect a set of objects", function() {
           var objList = venn.create([
                         {name: "vitor", age: "23"}
                       , {name: "khov", age: "24"}
