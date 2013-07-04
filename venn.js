@@ -5,29 +5,18 @@ define(function() {
   var venn_prototype = []
     , venn = {}
 
-  // Union
-  Object.defineProperty(venn_prototype, "union", {
-    value : function(set) {
-      var result = removeDuplicates(this.concat(set))
-      arraySubclass(result, venn_prototype)
-      return result
-    },
-    writable : false,
-    enumerable : false
-  });
+  var _union = function(set) {
+    var result = removeDuplicates(this.concat(set))
+    arraySubclass(result, venn_prototype)
+    return result
+  }
 
-  // Intersection
-  Object.defineProperty(venn_prototype, "intersection", {
-    value : function (set) {
-      var result = intersection(this,set)
-      arraySubclass(result, venn_prototype);
-      return result
-    },
-    writable : false,
-    enumerable : false
-  })
+  var _intersection = function(set) {
+    var result = intersection(this,set)
+    arraySubclass(result, venn_prototype);
+    return result
+  }
 
-  // Utils
   var arraySubclass = [].__proto__
     ? function(array, prototype) {
     array.__proto__ = prototype
@@ -70,6 +59,19 @@ define(function() {
 
     return result
   }
+
+  // Venn properties
+  Object.defineProperty(venn_prototype, "union", {
+    value : _union,
+    writable : false,
+    enumerable : false
+  });
+
+  Object.defineProperty(venn_prototype, "intersection", {
+    value : _intersection,
+    writable : false,
+    enumerable : false
+  })
 
   // this could be the body of union, and create is a union([])
   // thus removing duplicates
