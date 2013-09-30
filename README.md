@@ -6,7 +6,8 @@ fluent API library for set operations:
 * supports objects
 * AMD and node compatible
 
-Note: I've noticed I had some downloads on npm, please send your issues and comments if you have any. I kind of stopped this half way through because it served my objectives, but I will resume development soon for the little bit and pieces that are missing.
+
+*Note: I've noticed I had some downloads on npm, please send your issues and comments if you have any. I kind of stopped this half way through because it served my objectives, but I will resume development soon for the little bit and pieces that are missing.*
 
 ### Usage
 
