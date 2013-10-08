@@ -9,7 +9,7 @@ module.exports = function (config) {
       {pattern: 'node_modules/chai/chai.js', included: false},
       {pattern: 'node_modules/lodash/lodash.js', included: false},
       {pattern: 'test/*test*.js', included: false},
-      {pattern: 'venn.js', included: false},
+      {pattern: 'venn*.js', included: false},
 
       'karma-require-conf.js'
     ],

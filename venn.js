@@ -1,59 +1,53 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module, require) }
 
-define(function() {
+define(["./venn-util.js"]
+ , function(vennUtil) {
 
   var venn_prototype = []
-    , venn = {}
 
   var _union = function(set) {
 
-    var map = this.concat(set)
-      .reduce(function(curr, next) {
-        curr[uid(next)] = next
-        return curr
-      }, {})
-
-    var result = []
-    for (var key in map) {
-      result.push(map[key])
-    }
-
-    arraySubclass(result, venn_prototype)
-    return result
+    return vennUtil.removeDuplicates(
+      vennUtil.concat(this,set), this.keyFunction)
   }
 
   var _intersection = function(set) {
 
+    var that = this
+
     if(!set || set.length == 0 || !this || this.length == 0) {
-      set = []
+      this.length = 0
     } else {
-      var map = this.reduce(function(curr, next) {
-        curr[uid(next)] = next
-        return curr
-      }, {})
 
-      set = set.filter(function(key){
+      var copiedVenn = [].concat(this)
+        , visited = {}
+        , key
 
-        var uidKey = uid(key)
+      this.length = 0
 
-        if(map[uidKey])
-        {
-          delete map[uidKey]
-          return true
+      set.forEach(function(element) {
+        visited[getKey.call(that,element)] = true
+      })
+
+      copiedVenn.forEach(function(element) {
+
+        key = getKey.call(that,element)
+        if( visited[key] ) {
+          that.push(element)
+          delete visited[key]
         }
-        return false
       })
     }
 
-    arraySubclass(set, venn_prototype)
-    return set
+    return this
   }
 
-  var uid = function(value) {
-    if(typeof value == "string" ) {
-      return value
+  var getKey = function(value) {
+    if (!this.keyFunction) {
+      return vennUtil.bruteForceKey(value)
+    } else {
+      return this.keyFunction(value)
     }
-    return JSON.stringify(value)
   }
 
   // Venn properties
@@ -69,17 +63,19 @@ define(function() {
     enumerable : false
   })
 
-  var arraySubclass = [].__proto__
-    ? function(array, prototype) {
-    array.__proto__ = prototype
-  }
-    : function(array, prototype) {
-    for (var property in prototype) array[property] = prototype[property]
-  }
-
   return {
-    create: function(array) {
-      return _union.call(array || [], [])
+    create: function(array, keyFunction) {
+      var venn = array || []
+      vennUtil.arraySubClass(venn, venn_prototype)
+
+      Object.defineProperty(venn, "keyFunction", {
+        writable : false,
+        enumerable : false,
+        value : keyFunction
+
+      })
+
+      return venn.union([])
     }
   }
 })

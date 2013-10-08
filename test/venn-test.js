@@ -16,7 +16,7 @@ define(
 
       describe("create", function() {
 
-        it("should have empty array with no argument", function() {
+        it("should create empty array (if provided no arguments)", function() {
           venn.create().should.be.empty
           venn.create([]).should.be.empty
         })
@@ -27,6 +27,7 @@ define(
 
           fstSet.should.not.eql(sndSet)
         })
+
 
         it("should keep different instances which might have the same result", function() {
           var fstSet = venn.create([1,2])
@@ -182,7 +183,7 @@ define(
 
       describe("mashups", function (){
 
-        it("should unite and intersect a set of objects", function() {
+        it("should unite and intersect a set of objects without a custom keyFunction", function() {
           var objList = venn.create([
                         {name: "vitor", age: "23"}
                       , {name: "khov", age: "24"}
@@ -200,6 +201,31 @@ define(
           lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
           lodash.find(objList, {name: "khov", age : "10"}).should.be.ok
           lodash.find(objList, {name: "nuno", age : "20"}).should.be.ok
+        })
+
+        it("should unite and intersect a set of objects with a custom keyFunction", function() {
+
+          var keyFunction = function(item) {
+            return item.id
+          }
+
+          var objList = venn.create([
+                        {id: 0, name: "vitor", age: "23"}
+                      , {id: 1, name: "khov", age: "24"}
+                      , {id: 2, name: "pat", age: "30"}
+                     ], keyFunction )
+                        .intersection([
+                          {id: 2, name: "vitor", age: "23"}
+                        , {id: 2, name: "newguy", age: "0"}
+                        , {id: 2, name: "pat", age: "50"} ])
+                        .union([
+                         {id: 1, name: "khov", age : "10"}
+                       , {id: 10, name: "nuno", age : "20"} ])
+
+          objList.length.should.equal(3)
+          lodash.find(objList, {id: 2}).should.be.ok
+          lodash.find(objList, {id: 1}).should.be.ok
+          lodash.find(objList, {id: 10}).should.be.ok
         })
       })
     })
