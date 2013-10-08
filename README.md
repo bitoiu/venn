@@ -70,22 +70,20 @@ But if you want performance, write your own key function
     }
     
     venn.create([
-        {name: "vitor", age: "23"}
-      , {name: "khov",  age: "24"}
-      , {name: "pat",   age: "30"}], myKeyFunction)
+        {name: "vitor", age: "100"}
+      , {name: "khov",  age: "100"}], myKeyFunction)
       .intersection([
-        {name: "vitor",  age: "23"}
-      , {name: "newguy", age: "0"}
-      , {name: "pat",    age: "50"}])
+        {name: "vitor",  age: "0"}
+      , {name: "khov",   age: "0"}
       .union([
-        {name: "khov", age : "10"}
-      , {name: "nuno", age : "20"}]) // returns vitor, khov and nuno
+        {name: "khov", age : "-100"}
+      , {name: "nuno", age : "20"}]) // returns vitor, khov(the first of them) and nuno
 ```
 
 ### Some notes
 
-# The keyFunction only needs to be set once for each venn object (as you would expect)
-# Don't forget if you apply a built-in array function like `filter` or `map` the returning object is not a venn object (as you would once again expect)
+* The keyFunction only needs to be set once for each venn object (as you would expect)
+* Don't forget if you apply a built-in array function like `filter` or `map` the returning object is not a venn object (as you would once again expect)
 
 Let me know if there are improvements I can do to the library. I might take some time to implement the other less used set operations.
 
