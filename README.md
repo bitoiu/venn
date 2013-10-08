@@ -2,32 +2,31 @@
 
 ![wiki stolen logo](http://upload.wikimedia.org/wikipedia/commons/9/99/Venn0001.svg)
 
-fluent API library for set operations:
-* supports objects
-* AMD and node compatible
 
+## Motivation
 
-*Note: I've noticed I had some downloads on npm, please send your issues and comments if you have any. I kind of stopped this half way through because it served my objectives, but I will resume development soon for the little bit and pieces that are missing.*
+One of these days I was looking for a library that would allow me to do simple set operations, mostly intersection and unions. There's so many that do it, like underscore, the problem I found was that none of them had a fluent API, so I took a take on doing my own.
 
-### Usage
+Compatible with AMD and node.
+
+### Simple
 
 A venn set is just an array with some added features:
 
 ```javascript
 
   var venn = require("venn")
-  
   venn.create([1,2]) // returns [1,2]
 ```
 
-You can now chain operations to this set, like a union
+You can now chain operations to this set, like an union:
 
 ```javascript
   venn.create([1,2])
       .union([1,2,3,4]) // returns [1,2,3,4]  
 ```
 
-Or an intersection
+Or an intersection:
 
 ```javascript
     venn.create([1,2])
@@ -44,7 +43,9 @@ Or a mix of everything
       .union([2]) // returns [1,5,2]      
 ```
 
-You can also use objects
+### Still simple:
+
+You can also use objects, without a custom hash/key function
 
 ```javascript
     venn.create([
@@ -59,3 +60,33 @@ You can also use objects
         {name: "khov", age : "10"}
       , {name: "nuno", age : "20"}]) // returns vitor, khov and nuno
 ```
+
+But if you want performance, write your own key function
+
+```javascript
+  
+    var myKeyFunction = function(item) {
+      return item.name
+    }
+    
+    venn.create([
+        {name: "vitor", age: "23"}
+      , {name: "khov",  age: "24"}
+      , {name: "pat",   age: "30"}], myKeyFunction)
+      .intersection([
+        {name: "vitor",  age: "23"}
+      , {name: "newguy", age: "0"}
+      , {name: "pat",    age: "50"}])
+      .union([
+        {name: "khov", age : "10"}
+      , {name: "nuno", age : "20"}]) // returns vitor, khov and nuno
+```
+
+### Some notes
+
+# The keyFunction only needs to be set once for each venn object (as you would expect)
+# Don't forget if you apply a built-in array function like `filter` or `map` the returning object is not a venn object (as you would once again expect)
+
+Let me know if there are improvements I can do to the library. I might take some time to implement the other less used set operations.
+
+
