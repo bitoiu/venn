@@ -65,7 +65,8 @@ define(["./venn-util.js"]
 
   return {
     create: function(array, keyFunction) {
-      var venn = array || []
+
+      var venn = array ? [].concat(array) : []
       vennUtil.arraySubClass(venn, venn_prototype)
 
       Object.defineProperty(venn, "keyFunction", {

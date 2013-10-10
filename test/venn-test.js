@@ -12,44 +12,55 @@ define(
 
   return function () {
 
+    // Set-up
+    var keyItemFunction = function(item) {
+      return item.name
+    }
+
+    var personSet = [
+        {name: "vitor", age: "23"}
+      , {name: "khov", age: "24"}
+      , {name: "vitor", age: "23"}]
+
     describe("venn", function() {
 
       describe("create", function() {
 
-        it("should create empty array (if provided no arguments)", function() {
+        it("should return empty array if no args provided", function() {
           venn.create().should.be.empty
           venn.create([]).should.be.empty
         })
 
-        it("should create different instances", function() {
+        it("should return different instances", function() {
           var fstSet = venn.create([1,2])
           var sndSet = venn.create()
 
           fstSet.should.not.eql(sndSet)
         })
 
+        it("should not make argument a venn object", function() {
 
-        it("should keep different instances which might have the same result", function() {
-          var fstSet = venn.create([1,2])
-          var sndSet = venn.create([1,2])
+          var objList = venn.create(personSet)
+          expect(personSet.union).not.be.ok
 
-          fstSet.should.eql(sndSet)
         })
+
 
         it("should remove duplicates", function() {
           venn.create([1,1]).should.eql([1])
           venn.create([1,1,2,1]).should.eql([1,2])
           venn.create([1,1,2,2,2,1,3,4,5,1,1,1,]).should.eql([1,2,3,4,5])
 
-          var objList = venn.create([
-                        {name: "vitor", age: "23"}
-                      , {name: "khov", age: "24"}
-                      , {name: "vitor", age: "23"}
-                      ])
+          var objList = venn.create(personSet)
+          var customKeyObjList = venn.create(personSet, keyItemFunction)
 
           objList.length.should.equal(2)
           lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
           lodash.find(objList, {name: "khov", age : "24"}).should.be.ok
+
+          customKeyObjList.length.should.equal(2)
+          lodash.find(customKeyObjList, {name: "vitor", age : "23"}).should.be.ok
+          lodash.find(customKeyObjList, {name: "khov", age : "24"}).should.be.ok
         })
 
       })
