@@ -77,16 +77,18 @@ define([
 
           })
 
-          it("should remove duplicates (with change)", function (){
+          it("should remove duplicates", function (){
 
             var duplicatedArray = [1,2,3,4,1,1,1,1,12,3,4,1]
             vennUtil.arraySubClass(duplicatedArray, testProto)
-            duplicatedArray.testProperty.should.be.ok
 
             duplicatedArray = vennUtil.removeDuplicates(duplicatedArray)
-
             duplicatedArray.should.eql([1,2,3,4,12])
             duplicatedArray.testProperty.should.be.ok
+
+            duplicatedArray = [1,1,1,1,1,1]
+            duplicatedArray = vennUtil.removeDuplicates(duplicatedArray)
+            duplicatedArray.should.eql([1])
 
           })
         })

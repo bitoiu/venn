@@ -13,14 +13,18 @@ define(
   return function () {
 
     // Set-up
-    var keyItemFunction = function(item) {
-      return item.name
+    var keyFunction = function(person) {
+      return person.name
     }
 
-    var personSet = [
-        {name: "vitor", age: "23"}
-      , {name: "khov", age: "24"}
-      , {name: "vitor", age: "23"}]
+    // People
+    var jane20 = {name: "jane", age: "20"}
+      , bob30  = {name: "bob",  age: "30"}
+      , jane40 = {name: "jane", age: "40"}
+      , eric40 = {name: "eric", age: "40"}
+      , personSetWithDuplicatedName = [jane20, bob30, jane40]
+      , personSetWithDuplicatedObject = [jane20, bob30, jane20]
+      , personDistinctSet = [jane20, bob30, eric40]
 
     describe("venn", function() {
 
@@ -40,34 +44,32 @@ define(
 
         it("should not make argument a venn object", function() {
 
-          var objList = venn.create(personSet)
-          expect(personSet.union).not.be.ok
+          var objList = venn.create(personDistinctSet)
+          expect(personDistinctSet.union).not.be.ok
 
         })
 
-
-        it("should remove duplicates", function() {
+        it("should remove duplicates and keep ordering (first come first served)", function() {
           venn.create([1,1]).should.eql([1])
           venn.create([1,1,2,1]).should.eql([1,2])
           venn.create([1,1,2,2,2,1,3,4,5,1,1,1,]).should.eql([1,2,3,4,5])
 
-          var objList = venn.create(personSet)
-          var customKeyObjList = venn.create(personSet, keyItemFunction)
+          var objList = venn.create(personSetWithDuplicatedObject)
+          var customKeyObjList = venn.create(personSetWithDuplicatedName, keyFunction)
 
           objList.length.should.equal(2)
-          lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
-          lodash.find(objList, {name: "khov", age : "24"}).should.be.ok
+          objList[0].should.eql(jane20)
+          objList[1].should.eql(bob30)
 
           customKeyObjList.length.should.equal(2)
-          lodash.find(customKeyObjList, {name: "vitor", age : "23"}).should.be.ok
-          lodash.find(customKeyObjList, {name: "khov", age : "24"}).should.be.ok
+          customKeyObjList[0].should.eql(jane20)
+          customKeyObjList[1].should.equal(bob30)
         })
-
       })
 
       describe("union", function() {
 
-        it("shouldn't change set if empty", function (){
+        it("shouldn't change set if empty and keeps order", function (){
 
           venn.create([1,2,3])
             .union([])
@@ -77,58 +79,61 @@ define(
             .union([1,2,3,4])
             .should.be.eql([1,2,3,4])
 
-          var objList = venn.create([
-                        {name: "vitor", age: "23"}
-                      , {name: "khov", age: "24"}
-                      , {name: "pat", age: "30"}
-                      ])
+          var objList = venn.create(personDistinctSet)
+            .union([])
+            .union([])
 
           objList.length.should.equal(3)
-          lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
-          lodash.find(objList, {name: "khov", age : "24"}).should.be.ok
-          lodash.find(objList, {name: "pat", age : "30"}).should.be.ok
+          lodash.find(objList, jane20).should.be.ok
+          lodash.find(objList, bob30).should.be.ok
+          lodash.find(objList, eric40).should.be.ok
+
+          objList[0].should.equal(jane20)
+          objList[2].should.equal(eric40)
 
         })
 
-        it("should create simple union of elements", function() {
+        it("should create union of elements (numbers)", function() {
 
-          venn.create([1,2,3])
+          var vennInstance = venn.create([1,2,3])
             .union([4,5,6])
-            .should.be.eql([1,2,3,4,5,6])
 
-          var objList = venn.create([
-                        {name: "vitor", age: "23"}
-                      , {name: "khov", age: "24"}
-                      ]).union([
-                        {name: "pat", age: "30"}
-                      , {name: "vitor", age: "23"}
-                      , {name: "shang", age: "23"}
-                      ]).union([{name: "vitor", age: "23"}])
-
-          objList.length.should.equal(4)
-          lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
-          lodash.find(objList, {name: "khov", age : "24"}).should.be.ok
-          lodash.find(objList, {name: "pat", age : "30"}).should.be.ok
-          lodash.find(objList, {name: "shang", age : "23"}).should.be.ok
+          vennInstance.should.be.eql([1,2,3,4,5,6])
+          vennInstance.union([1,2,3,4,5,6,7])
+          vennInstance.should.be.eql([1,2,3,4,5,6,7])
 
         })
 
-        it("should prevent duplication of elements", function() {
-          venn.create([1,2,3])
-            .union([1,4,5,6])
-            .should.be.eql([1,2,3,4,5,6])
+        it("should create union of elements (objects)", function() {
 
-          venn.create([
-              {name: "vitor", age: "23"}
-            , {name: "vitor", age: "23"}
-            , {name: "vitor", age: "23"}
-            ]).length.should.equal(1)
+          var noKeyList = venn.create(personDistinctSet)
+            .union(personSetWithDuplicatedName)
+            .union([])
+            .union([{name:"bob", age:"100"}])
+
+           noKeyList.length.should.equal(5)
+           lodash.find(noKeyList, jane20).should.be.ok
+           lodash.find(noKeyList, jane40).should.be.ok
+           lodash.find(noKeyList, bob30).should.be.ok
+           lodash.find(noKeyList, eric40).should.be.ok
+           lodash.find(noKeyList, {name: "bob", age :  "100"}).should.be.ok
+
+          keyList = venn.create(personDistinctSet, keyFunction)
+            .union(personSetWithDuplicatedName)
+            .union([])
+            .union([{name:"bob", age:"100"}])
+
+          keyList.length.should.equal(3)
+          lodash.find(keyList, jane20).should.be.ok
+          lodash.find(keyList, bob30).should.be.ok
+          lodash.find(keyList, eric40).should.be.ok
+
         })
       })
 
       describe("intersection", function() {
 
-        it("should return an empty intersection set", function() {
+        it("should return empty intersection sets", function() {
 
           // Empty intersections
           venn.create([1,2,3])
@@ -145,98 +150,96 @@ define(
 
         })
 
-        it("should return intersection of literals", function(){
+        it("should return intersection set", function(){
 
           // Non empty intersections
           venn.create([1,2,3])
             .intersection([2])
             .should.eql([2])
 
-          venn.create([1,2,5,"a"])
-            .intersection(["a"])
-            .should.eql("a")
+          var vennInstance = venn.create([1,2,5,"a"])
+          vennInstance.intersection(["a"]).should.eql("a")
 
+          // Tests order as well
           venn.create([1,2,3,4,5,6])
             .intersection([1,3,4,5])
             .intersection([1,2,3,4])
             .intersection([1])
             .should.eql([1])
+
+          venn.create([1,2,3])
+            .intersection([3,2,1])
+            .intersection([1,2,3,1,2,3])
+            .intersection([3,2,1])
+            .intersection([3,2,1,1,2,3,1,2,2,2,-1000,10])
+            .should.eql([1,2,3])
         })
 
-        if("should return intersection of object", function() {
-          var objList = venn.create([
-                          {name: "vitor", age: "23"}
-                        , {name: "khov", age: "24"}
-                        , {name: "pat", age: "30"}
-                      ]).intersection([
-                          {name: "vitor", age: "23"}
-                        , {name: "newguy", age: "0"}
-                        , {name: "pat", age: "30"}
-                      ])
+        it("should return intersection set (objects)", function() {
 
-          objList.length.should.equal(2)
-          lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
-          lodash.find(objList, {name: "pat", age : "30"}).should.be.ok
-        })
+          var noKeyList = venn.create(personDistinctSet)
+            .intersection(personSetWithDuplicatedName)
+            .intersection(personSetWithDuplicatedName)
+            .intersection(personDistinctSet)
 
-        it("should prevent duplication of elements", function() {
 
-          venn.create([1,2,3,4])
-            .intersection([2,2])
-            .should.eql([2])
+          noKeyList.length.should.equal(2)
+          lodash.find(noKeyList, jane20).should.be.ok
+          lodash.find(noKeyList, bob30).should.be.ok
 
-          venn.create([1,2,3,4])
-            .intersection([2,2,4])
-            .should.eql([2,4])
-        })
-
-      })
-
-      describe("mashups", function (){
-
-        it("should unite and intersect a set of objects without a custom keyFunction", function() {
-          var objList = venn.create([
-                        {name: "vitor", age: "23"}
-                      , {name: "khov", age: "24"}
-                      , {name: "pat", age: "30"}
-                    ]).intersection([
-                        {name: "vitor", age: "23"}
-                      , {name: "newguy", age: "0"}
-                      , {name: "pat", age: "50"}
-                    ]).union([
-                        {name: "khov", age : "10"}
-                      , {name: "nuno", age : "20"}
-                    ])
-
-          objList.length.should.equal(3)
-          lodash.find(objList, {name: "vitor", age : "23"}).should.be.ok
-          lodash.find(objList, {name: "khov", age : "10"}).should.be.ok
-          lodash.find(objList, {name: "nuno", age : "20"}).should.be.ok
-        })
-
-        it("should unite and intersect a set of objects with a custom keyFunction", function() {
-
-          var keyFunction = function(item) {
-            return item.id
+          // tests order
+          with (noKeyList[0]) {
+            name.should.equal(jane20.name)
+            age.should.equal(jane20.age)
           }
 
-          var objList = venn.create([
-                        {id: 0, name: "vitor", age: "23"}
-                      , {id: 1, name: "khov", age: "24"}
-                      , {id: 2, name: "pat", age: "30"}
-                     ], keyFunction )
-                        .intersection([
-                          {id: 2, name: "vitor", age: "23"}
-                        , {id: 2, name: "newguy", age: "0"}
-                        , {id: 2, name: "pat", age: "50"} ])
-                        .union([
-                         {id: 1, name: "khov", age : "10"}
-                       , {id: 10, name: "nuno", age : "20"} ])
+          var keyList = venn.create(personSetWithDuplicatedName, keyFunction)
+            .intersection(personDistinctSet)
 
-          objList.length.should.equal(3)
-          lodash.find(objList, {id: 2}).should.be.ok
-          lodash.find(objList, {id: 1}).should.be.ok
-          lodash.find(objList, {id: 10}).should.be.ok
+          keyList.length.should.equal(2)
+          lodash.find(keyList, jane20).should.be.ok
+          lodash.find(keyList, bob30).should.be.ok
+
+          // tests order
+          keyList[0].should.eql(jane20)
+        })
+      })
+
+      describe("mixed set operations", function (){
+
+        it("should return correct set of unions/intersections with numbers", function() {
+
+          var vennSet = venn.create([1,2,3,4])
+            .union([2])
+            .intersection([4,1,3])
+            .union([2])
+            .intersection([4,3,2,1])
+
+          vennSet.should.eql([1,3,4,2])
+
+        })
+
+        it("should return correct set of unions/intersections with objects", function() {
+
+          var noKeyList = venn.create([])
+            .union([jane20,jane20,bob30,jane40])
+            .union([jane20,eric40])
+            .intersection([jane20,jane20,bob30,jane40,eric40])
+
+          noKeyList.length.should.equal(4)
+          noKeyList[0].should.eql(jane20)
+          noKeyList[3].should.eql(eric40)
+
+          var keyList = venn.create([], keyFunction)
+            .union([jane20,jane20,bob30,jane40])
+            .union([jane20,eric40])
+            .intersection([jane20,jane20,bob30,jane40,eric40])
+            .union([])
+
+          keyList.length.should.equal(3)
+          keyList[0].should.eql(jane20)
+          keyList[1].should.eql(bob30)
+          keyList[2].should.eql(eric40)
         })
       })
     })
