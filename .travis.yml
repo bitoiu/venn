@@ -1,18 +1,14 @@
- language: node_js
- node_js:
-   - "0.10"
-   - "0.8"
+node_js: 
+- "0.10"
+- "0.8"
+language: node_js
 before_script:
-  - git config --global user.email "vmrmonteiro@gmail.com"
+  - git config --global user.email "tusharmath@gmail.com"
   - git config --global user.name "Travis-CI"
 after_success:
-  - grunt --verbose
-after_script:
-  - grunt --verbose
-#  -
-#  - git config credential.helper "store --file=.git/credentials"
-#   - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
-#  - node ./node_modules/grunt-cli/bin/grunt release
-#env:
-#  global:
-#    secure: {"lots-of-seemingly-random-characters"}
+  - grunt
+  - git config credential.helper "store --file=.git/credentials"
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+dd: 
+  secure: HjsZe23ZhgJuTE/FixLB40ilyJnK6kh3A3lElZcwmcgpMcjJMLSP19SBMvNI2Ou5xFoxzIgxadU/X/ONod/3XLFXkCaREs21X1cJG3cwJsrySmQ3zQZQG/ToyZpLOO43UE2duxZGOYe1zmLKnobe4N7FxaZpz+h3vtYfWX1TqAc=
+
