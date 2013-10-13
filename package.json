@@ -1,7 +1,7 @@
 {
   "name": "venn",
   "preferGlobal": false,
-  "version": "0.6.3",
+  "version": "0.6.4",
   "author": "bitoiu <vmrmonteiro@gmail.com>",
   "description": "fluent API library for set operations",
   "repository": {
@@ -27,7 +27,8 @@
     "karma-requirejs": "0.1",
     "grunt-cli": "~0.1.6",
     "grunt-contrib-uglify": "~0.2.2",
-    "grunt-release": "~0.6.0"
+    "grunt-release": "~0.6.0",
+    "grunt-git": "~0.1.5"
   },
   "scripts": {
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS && mocha"
