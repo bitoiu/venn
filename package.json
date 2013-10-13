@@ -3,7 +3,7 @@
     "preferGlobal": false,
     "version": "0.6.0",
     "author": "bitoiu <vmrmonteiro@gmail.com>",
-    "description": "unambitious fluent API library for set operations.",
+    "description": "fluent API library for set operations",
     "repository": {
         "type": "git",
         "url": "https://github.com/bitoiu/venn.git"
@@ -29,7 +29,7 @@
         "grunt-contrib-uglify": "~0.2.2"
     },
     "scripts": {
-        "test" : "./node_modules/.bin/karma start --single-run --browsers PhantomJS && mocha"
+        "test" : "./node_modules/.bin/karma start --single-run --browsers PhantomJS && mocha && grunt"
     },
     "license": "MIT",
     "engines": {
