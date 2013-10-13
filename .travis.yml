@@ -1,15 +1,14 @@
  language: node_js
  node_js:
-   - "0.11"
    - "0.10"
    - "0.8"
 before_script:
   - git config --global user.email "vmrmonteiro@gmail.com"
   - git config --global user.name "Travis-CI"
-
 after_success:
   - grunt --verbose
-#after_script:
+after_script:
+  - grunt --verbose
 #  -
 #  - git config credential.helper "store --file=.git/credentials"
 #   - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
