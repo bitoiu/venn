@@ -31,7 +31,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-git');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['uglify','gitcommit','release']);
   grunt.registerTask('releaseCI', ['uglify','gitcommit','release']);
 
 };
