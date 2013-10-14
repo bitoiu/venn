@@ -1,14 +1,21 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module, require) }
 
-define(["./venn-util.js"]
- , function(vennUtil) {
+define(function() {
 
   var venn_prototype = []
 
+  var arraySubClass = [].__proto__
+    ? function(array, prototype) {
+    array.__proto__ = prototype
+  }
+    : function(array, prototype) {
+    for (var property in prototype) array[property] = prototype[property]
+  }
+
   var _union = function(set) {
 
-    return vennUtil.removeDuplicates(
-      vennUtil.concat(this,set), this.keyFunction)
+    return removeDuplicates(
+      concat(this,set), this.keyFunction)
   }
 
   var _intersection = function(set) {
@@ -44,7 +51,7 @@ define(["./venn-util.js"]
 
   var getKey = function(value) {
     if (!this.keyFunction) {
-      return vennUtil.bruteForceKey(value)
+      return bruteForceKeyFunction(value)
     } else {
       return this.keyFunction(value)
     }
@@ -67,7 +74,7 @@ define(["./venn-util.js"]
     create: function(array, keyFunction) {
 
       var venn = array ? [].concat(array) : []
-      vennUtil.arraySubClass(venn, venn_prototype)
+      arraySubClass(venn, venn_prototype)
 
       Object.defineProperty(venn, "keyFunction", {
         writable : false,
@@ -79,4 +86,46 @@ define(["./venn-util.js"]
       return venn.union([])
     }
   }
+    
+  /** Utils **/
+
+
+  function concat(vennArray, nonVennArray) {
+
+    nonVennArray.forEach(function(element) {
+      vennArray.push(element)
+    })
+
+    return vennArray
+  }
+
+  function removeDuplicates(vennArray, keyFunction) {
+
+    var copy = [].concat(vennArray)
+      , visited = {}
+      , key
+    vennArray.length = 0
+
+    keyFunction = keyFunction || bruteForceKeyFunction
+
+    copy.forEach(function(element) {
+
+      key = keyFunction(element)
+
+      if( !visited[key] ) {
+        vennArray.push(element)
+        visited[key] = true
+      }
+    })
+
+    return vennArray
+  }
+
+  function bruteForceKeyFunction(value) {
+    if(typeof value == "string" ) {
+      return value
+    }
+    return JSON.stringify(value)
+  }
+    
 })
