@@ -81,7 +81,7 @@ define(
 
           var objList = venn.create(personDistinctSet)
             .union([])
-            .union([])
+            .or([])
 
           objList.length.should.equal(3)
           lodash.find(objList, jane20).should.be.ok
@@ -96,7 +96,7 @@ define(
         it("should create union of elements (numbers)", function() {
 
           var vennInstance = venn.create([1,2,3])
-            .union([4,5,6])
+            .or([4,5,6])
 
           vennInstance.should.be.eql([1,2,3,4,5,6])
           vennInstance.union([1,2,3,4,5,6,7])
@@ -108,7 +108,7 @@ define(
 
           var noKeyList = venn.create(personDistinctSet)
             .union(personSetWithDuplicatedName)
-            .union([])
+            .or([])
             .union([{name:"bob", age:"100"}])
 
            noKeyList.length.should.equal(5)
@@ -119,9 +119,9 @@ define(
            lodash.find(noKeyList, {name: "bob", age :  "100"}).should.be.ok
 
           keyList = venn.create(personDistinctSet, keyFunction)
-            .union(personSetWithDuplicatedName)
-            .union([])
-            .union([{name:"bob", age:"100"}])
+            .or(personSetWithDuplicatedName)
+            .or([])
+            .or([{name:"bob", age:"100"}])
 
           keyList.length.should.equal(3)
           lodash.find(keyList, jane20).should.be.ok
@@ -141,7 +141,7 @@ define(
             .should.eql([])
 
           venn.create([])
-            .intersection([1])
+            .and([1])
             .should.eql([])
 
           venn.create([])
@@ -163,15 +163,15 @@ define(
           // Tests order as well
           venn.create([1,2,3,4,5,6])
             .intersection([1,3,4,5])
-            .intersection([1,2,3,4])
-            .intersection([1])
+            .and([1,2,3,4])
+            .and([1])
             .should.eql([1])
 
           venn.create([1,2,3])
-            .intersection([3,2,1])
-            .intersection([1,2,3,1,2,3])
-            .intersection([3,2,1])
-            .intersection([3,2,1,1,2,3,1,2,2,2,-1000,10])
+            .and([3,2,1])
+            .and([1,2,3,1,2,3])
+            .and([3,2,1])
+            .and([3,2,1,1,2,3,1,2,2,2,-1000,10])
             .should.eql([1,2,3])
         })
 
@@ -179,7 +179,7 @@ define(
 
           var noKeyList = venn.create(personDistinctSet)
             .intersection(personSetWithDuplicatedName)
-            .intersection(personSetWithDuplicatedName)
+            .and(personSetWithDuplicatedName)
             .intersection(personDistinctSet)
 
 
@@ -211,8 +211,8 @@ define(
 
           var vennSet = venn.create([1,2,3,4])
             .union([2])
-            .intersection([4,1,3])
-            .union([2])
+            .and([4,1,3])
+            .or([2])
             .intersection([4,3,2,1])
 
           vennSet.should.eql([1,3,4,2])
@@ -223,7 +223,7 @@ define(
 
           var noKeyList = venn.create([])
             .union([jane20,jane20,bob30,jane40])
-            .union([jane20,eric40])
+            .or([jane20,eric40])
             .intersection([jane20,jane20,bob30,jane40,eric40])
 
           noKeyList.length.should.equal(4)
@@ -231,9 +231,9 @@ define(
           noKeyList[3].should.eql(eric40)
 
           var keyList = venn.create([], keyFunction)
-            .union([jane20,jane20,bob30,jane40])
+            .or([jane20,jane20,bob30,jane40])
             .union([jane20,eric40])
-            .intersection([jane20,jane20,bob30,jane40,eric40])
+            .and([jane20,jane20,bob30,jane40,eric40])
             .union([])
 
           keyList.length.should.equal(3)
