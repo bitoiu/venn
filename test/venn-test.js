@@ -205,6 +205,63 @@ define(
         })
       })
 
+      describe("not", function() {
+
+        it("should have no impact on empty sets", function() {
+
+          var vennSet = venn.create([])
+            .not([])
+
+          vennSet.not([1,2,3])
+          vennSet.not([4,5,6])
+          vennSet.should.be.empty
+
+          vennSet.create([1,2,3])
+            .and([]).or([])
+            .not([10,11,12])
+            .not([])
+
+          vennSet.should.eql([1,2,3])
+
+        })
+
+        it("should remove elements from existing set", function() {
+
+          var vennSet = venn.create([1,2,3])
+          vennSet.not([1])
+          vennSet.should.eql([1,2])
+
+          vennSet.or([3,4,5]).not([1,4])
+          vennSet.should.eql([2,3,5])
+
+          vennSet.not([5,3,2]).should.be.empty
+
+        })
+
+        it("should remove elements from existing set (objects)", function() {
+
+          var noKeyList = venn.create([jane20,jane40,bob30,eric40])
+            .not([])
+            .not([bob30,eric40])
+
+          noKeyList.length.should.equal(2)
+          noKeyList[0].should.eql(jane20)
+          noKeyList[1].should.eql(jane40)
+
+          var keyList = venn.create([jane20,eric40,jane40,bob30], keyFunction)
+            .not([jane20])
+
+
+          keyList.length.should.equal(2)
+          keyList[0].should.eql(eric40)
+          keyList[1].should.eql(bob30)
+
+          keyList.not([eric40]).not([bob30])
+          keyList.should.be.empty
+        })
+
+      })
+
       describe("mixed set operations", function (){
 
         it("should return correct set of unions/intersections with numbers", function() {
