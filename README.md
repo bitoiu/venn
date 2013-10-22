@@ -20,13 +20,15 @@ A venn set is just an array on steroids:
 
 ### union
 
-You can now chain operations to this set, like an union:
+You can now chain operations to this set, using `union` or `or`:
 
 ```javascript
   venn.create([1,2])
       .union([1,2,3,4])
-      .union([5]) // [1,2,3,4,5]  
+      .or([5]) // [1,2,3,4,5]
 ```
+
+`union` and `or` are just alias for the same operation.
 
 ### intersection
 
@@ -37,15 +39,17 @@ You can now chain operations to this set, like an union:
       .intersection([1,5]) // [1]
 ```
 
+if you prefer you can also use `and` instead of `intersection`
+
 ### chaining everything
 
 Or a mix of everything
 
 ```javascript
     venn.create([1,2])
-      .union([1,2,3,4,5]) 
-      .intersection([1,5])
-      .union([2]) // [1,5,2]      
+      .or([1,2,3,4,5])
+      .and([1,5])
+      .or([2]) // [1,5,2]
 ```
 
 ### Objects
@@ -81,10 +85,10 @@ But really, write your own key function:
     venn.create([
         {name: "vitor", age: "100"}
       , {name: "khov",  age: "100"}], myKeyFunction)
-      .intersection([
+      .and([
         {name: "vitor", age: "0"}
       , {name: "khov",  age: "0"}
-      .union([
+      .or([
         {name: "khov",  age : "-100"}
       , {name: "nuno",  age : "20"}]) 
    

@@ -64,7 +64,19 @@ define(function() {
     enumerable : false
   });
 
+  Object.defineProperty(venn_prototype, "or", {
+    value : _union,
+    writable : false,
+    enumerable : false
+  });
+
   Object.defineProperty(venn_prototype, "intersection", {
+    value : _intersection,
+    writable : false,
+    enumerable : false
+  })
+
+  Object.defineProperty(venn_prototype, "and", {
     value : _intersection,
     writable : false,
     enumerable : false
@@ -87,8 +99,7 @@ define(function() {
     }
   }
     
-  /** Utils **/
-
+  /** Helper functions **/
 
   function concat(vennArray, nonVennArray) {
 
