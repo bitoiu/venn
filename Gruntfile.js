@@ -32,6 +32,7 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['uglify'])
+  grunt.registerTask('pre-commit', ['uglify','gitcommit'])
   grunt.registerTask('shipit', ['uglify','gitcommit','release']);
 
 };
