@@ -144,6 +144,11 @@ define(
             .and([1])
             .should.eql([])
 
+          venn.create([1,2,3])
+            .and([1,2,3])
+            .and([])
+            .should.be.empty
+
           venn.create([])
             .intersection([])
             .should.eql([])
@@ -216,8 +221,7 @@ define(
           vennSet.not([4,5,6])
           vennSet.should.be.empty
 
-          vennSet.create([1,2,3])
-            .and([]).or([])
+          vennSet = venn.create([1,2,3])
             .not([10,11,12])
             .not([])
 
@@ -229,9 +233,9 @@ define(
 
           var vennSet = venn.create([1,2,3])
           vennSet.not([1])
-          vennSet.should.eql([1,2])
+          vennSet.should.eql([2,3])
 
-          vennSet.or([3,4,5]).not([1,4])
+          vennSet.or([1,4,5]).not([1,4])
           vennSet.should.eql([2,3,5])
 
           vennSet.not([5,3,2]).should.be.empty
@@ -271,8 +275,11 @@ define(
             .and([4,1,3])
             .or([2])
             .intersection([4,3,2,1])
+            .not([3,2])
+            .or([1,5])
+            .not([4])
 
-          vennSet.should.eql([1,3,4,2])
+          vennSet.should.eql([1,5])
 
         })
 
@@ -281,22 +288,26 @@ define(
           var noKeyList = venn.create([])
             .union([jane20,jane20,bob30,jane40])
             .or([jane20,eric40])
+            .not([jane20])
             .intersection([jane20,jane20,bob30,jane40,eric40])
+            .not([])
 
-          noKeyList.length.should.equal(4)
-          noKeyList[0].should.eql(jane20)
-          noKeyList[3].should.eql(eric40)
+
+          noKeyList.length.should.equal(3)
+          noKeyList[0].should.eql(bob30)
+          noKeyList[2].should.eql(eric40)
 
           var keyList = venn.create([], keyFunction)
             .or([jane20,jane20,bob30,jane40])
             .union([jane20,eric40])
+            .not([])
             .and([jane20,jane20,bob30,jane40,eric40])
             .union([])
+            .not([jane20,jane40])
 
-          keyList.length.should.equal(3)
-          keyList[0].should.eql(jane20)
-          keyList[1].should.eql(bob30)
-          keyList[2].should.eql(eric40)
+          keyList.length.should.equal(2)
+          keyList[0].should.eql(bob30)
+          keyList[1].should.eql(eric40)
         })
       })
     })

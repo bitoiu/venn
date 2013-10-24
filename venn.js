@@ -49,6 +49,37 @@ define(function() {
     return this
   }
 
+  var _not = function(set) {
+
+    var that = this
+
+    if(!set || set.length == 0 || !this || this.length == 0) {
+      return this
+    } else {
+
+      var copiedVenn = [].concat(this)
+        , visited = {}
+        , key
+
+      this.length = 0
+
+      set.forEach(function(element) {
+        visited[getKey.call(that,element)] = true
+      })
+
+      copiedVenn.forEach(function(element) {
+
+        key = getKey.call(that,element)
+        if( !visited[key] ) {
+          that.push(element)
+          delete visited[key]
+        }
+      })
+    }
+
+    return this
+  }
+
   var getKey = function(value) {
     if (!this.keyFunction) {
       return bruteForceKeyFunction(value)
@@ -78,6 +109,12 @@ define(function() {
 
   Object.defineProperty(venn_prototype, "and", {
     value : _intersection,
+    writable : false,
+    enumerable : false
+  })
+
+  Object.defineProperty(venn_prototype, "not", {
+    value : _not,
     writable : false,
     enumerable : false
   })
