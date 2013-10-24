@@ -1,7 +1,7 @@
 {
   "name": "venn",
   "preferGlobal": false,
-  "version": "0.7.1",
+  "version": "0.7.2",
   "author": "bitoiu <vmrmonteiro@gmail.com>",
   "description": "fluent API library for set operations",
   "repository": {
