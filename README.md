@@ -52,6 +52,14 @@ Or a mix of everything
       .or([2]) // [1,5,2]
 ```
 
+### If you want to be negative about it, you can check out `not`
+
+```javascript
+    venn.create([1,2,3,4,5])
+      .not([4])
+      .not([5]) // [1,2,3]
+```
+
 ### Objects
 
 If you're crazy you can use venn without a key function. We'll just figure it out how to index the objects.
