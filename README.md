@@ -41,6 +41,17 @@ You can now chain operations to this set, using `union` or `or`:
 
 if you prefer you can also use `and` instead of `intersection`
 
+
+### not
+
+If you want to be negative about it, you can check out `not`
+
+```javascript
+    venn.create([1,2,3,4,5])
+      .not([4])
+      .not([5]) // [1,2,3]
+```
+
 ### chaining everything
 
 Or a mix of everything
@@ -50,14 +61,6 @@ Or a mix of everything
       .or([1,2,3,4,5])
       .and([1,5])
       .or([2]) // [1,5,2]
-```
-
-### If you want to be negative about it, you can check out `not`
-
-```javascript
-    venn.create([1,2,3,4,5])
-      .not([4])
-      .not([5]) // [1,2,3]
 ```
 
 ### Objects
