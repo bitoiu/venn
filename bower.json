@@ -1,0 +1,27 @@
+{
+  "name": "venn",
+  "version": "1.0.1",
+  "main": "./venn.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "homepage": "http://www.fitter-happier.net/venn/",
+  "authors": [
+    "bitoiu <vmrmonteiro@gmail.com>"
+  ],
+  "description": "fluent api for set operations",
+  "keywords": [
+    "venn",
+    "and",
+    "or",
+    "intersection",
+    "union",
+    "not",
+    "xor"
+  ],
+  "license": "MIT"
+}
