@@ -2,7 +2,7 @@
 
 ## Motivation
 
-One of these days I was looking for a library that would allow me to do simple set operations, mostly intersection and unions. There's so many that do it, like underscore, the problem I found was that none of them had a fluent API, so I took a take on doing my own.
+One of these days I was looking for a library that would allow me to do simple set operations, mostly intersection and union. There's a lot of libraries that do this but I didn't find one with a fluent API. This a stab at one:
 
 Compatible with AMD and node.
 
