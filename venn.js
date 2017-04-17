@@ -119,47 +119,7 @@ define(function() {
     enumerable : false
   })
 
-  return {
-    create: function(array, keyFunction) {
-
-      var venn = array ? [].concat(array) : []
-      arraySubClass(venn, venn_prototype)
-
-      Object.defineProperty(venn, "keyFunction", {
-        writable : false,
-        enumerable : false,
-        value : keyFunction
-
-      })
-
-      return venn.union([])
-    }
-  }
-    
-  /** Helper functions **/
-
-  function concat(vennArray, nonVennArray) {
-
-    nonVennArray.forEach(function(element) {
-      vennArray.push(element)
-    })
-
-    return vennArray
-  }
-
-  function removeDuplicates(vennArray, keyFunction) {
-
-    var copy = [].concat(vennArray)
-      , visited = {}
-      , key
-    vennArray.length = 0
-
-    keyFunction = keyFunction || bruteForceKeyFunction
-
-    copy.forEach(function(element) {
-
-      key = keyFunction(element)
-
+ 
       if( !visited[key] ) {
         vennArray.push(element)
         visited[key] = true
