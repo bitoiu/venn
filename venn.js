@@ -169,6 +169,7 @@ define(function() {
     return vennArray
   }
 
+  
   function bruteForceKeyFunction(value) {
     if(typeof value == "string" ) {
       return value
