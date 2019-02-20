@@ -1,15 +1,15 @@
-workflow "Test" {
+workflow "Build & Test" {
   on = "push"
-  resolves = ["GitHub Action for npm"]
+  resolves = ["Test"]
 }
 
 action "Install" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
-  runs = "install"
+  args = "install"
 }
 
-action "GitHub Action for npm" {
+action "Test" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   needs = ["Install"]
-  runs = "test"
+  args = "test"
 }
