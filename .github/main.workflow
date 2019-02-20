@@ -1,15 +1,15 @@
 workflow "Test" {
   on = "push"
-  resolves = ["npm"]
+  resolves = ["TGitHub Action for npm-1"]
 }
 
-action "GitHub Action for npm" {
+action "Install" {
   uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   runs = "install"
 }
 
-action "npm" {
-  uses = "npm"
-  needs = ["GitHub Action for npm"]
+action "Test" {
+  uses = "actions/npm@59b64a598378f31e49cb76f27d6f3312b582f680"
   runs = "test"
+  needs = ["Install"]
 }
