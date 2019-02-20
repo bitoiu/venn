@@ -34,7 +34,9 @@
     "mocha": "^6.0.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS && mocha"
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS && mocha",
+    "grunt-build": "grunt",
+    "grunt-release": "grunt release"
   },
   "license": "MIT",
   "engines": {
