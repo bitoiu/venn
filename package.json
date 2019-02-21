@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/bitoiu/venn.git"
   },
+  "main": "venn.min.js",
   "keywords": [
     "venn",
     "set",
