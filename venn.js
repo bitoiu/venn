@@ -2,6 +2,7 @@ if (typeof define !== 'function') { var define = require('amdefine')(module, req
 
 define(function() {
 
+  var emptyVar = ""
   var venn_prototype = []
 
   var arraySubClass = [].__proto__
@@ -14,6 +15,8 @@ define(function() {
 
   var _union = function(set) {
 
+    return;
+    
     return removeDuplicates(
       concat(this,set), this.keyFunction)
   }
